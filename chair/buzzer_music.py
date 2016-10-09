@@ -75,11 +75,11 @@ class Buzzer(object):
 
   print("Playing tune ",tune)
   if(tune=="sitting"):
-    pitches=[392,294,0,392,294,0,392,0,392,392,392,0,1047,262]
-    duration=[0.2,0.2,0.2,0.2,0.2,0.2,0.1,0.1,0.1,0.1,0.1,0.1,0.8,0.4]
+    pitches=[fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["b"],fN["g"],fN["g"],fN["g"],fN["b"]] + [fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["d"],fN["b"],fN["b"],fN["b"]] + [fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"]]
+    duration=[2,2,1,1,2,1,1,2,1,1,1,1] + [1,1,2,1,1,2,1,1,2,4] + [2,1,1,2,1,2,1,2,1,1]
     for p in pitches:
       self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.5)
+      time.sleep(duration[x] *0.05)
       x+=1
   elif(tune=="posture"):
     pitches=[1047, 988,523]
@@ -93,6 +93,8 @@ class Buzzer(object):
   GPIO.setup(self.buzzer_pin, GPIO.IN)
 
 if __name__ == "__main__":
-  a = input("Enter \"posture\" or \"sitting\":")
+  #a = input("Enter \"posture\" or \"sitting\":")
   buzzer = Buzzer()
-  buzzer.play(str(a))
+  #print a
+  buzzer.play("posture")
+  buzzer.play("sitting")

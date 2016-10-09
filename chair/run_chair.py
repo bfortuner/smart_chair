@@ -44,6 +44,12 @@ def get_user_reminders(username):
   return response
 
 
+def buzz(buzz_type):
+  print "Paying buzz type: %s" % buzz_type
+  buzzer = Buzzer()
+  buzzer.play(buzz_type)
+
+
 def send_user_reminder(username, reminder_type):
   print "Sending reminder_type: '%s' to user: '%s'" % (reminder_type, username)
   uri = BACKEND_ENDPOINT+'/reminders/send'
@@ -73,6 +79,7 @@ def check_for_and_send_user_reminders(username):
   send_posture_reminder = reminders["send_posture_reminder"]
   send_sitting_reminder = reminders["send_sitting_reminder"]
   print "User Reminders: Posture:%s, Sitting:%s" % (send_posture_reminder, send_sitting_reminder)
+
   if send_posture_reminder:
     print "Sending User Posture Reminder"
     buzz("posture")
