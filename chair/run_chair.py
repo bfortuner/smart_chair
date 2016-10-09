@@ -4,6 +4,7 @@ import json
 import RPi.GPIO as GPIO
 import datetime
 import requests
+from buzzer_music import Buzzer
 
 BACKEND_ENDPOINT="https://smart-chair.herokuapp.com"
 USERNAME="admin"
@@ -43,6 +44,12 @@ def get_user_reminders(username):
   return response
 
 
+def buzz(buzz_type):
+  print "Paying buzz type: %s" % buzz_type
+  buzzer = Buzzer()
+  buzzer.play(buzz_type)
+
+
 def send_user_reminder(username, reminder_type):
   print "Sending reminder_type: '%s' to user: '%s'" % (reminder_type, username)
   uri = BACKEND_ENDPOINT+'/reminders/send'
@@ -53,12 +60,6 @@ def send_user_reminder(username, reminder_type):
 
 def get_current_time_utc():
   return datetime.datetime.utcnow()
-
-
-def buzzBuzzer(time):
-  GPIO.output(buzzer,1)
-  time.sleep(time)
-  GPIO.output(buzzer,0)
 
   
 def should_update_database(last_updated, posture, sitting):
@@ -80,6 +81,7 @@ def check_for_and_send_user_reminders(username):
   print "User Reminders: Posture:%s, Sitting:%s" % (send_posture_reminder, send_sitting_reminder)
   if send_posture_reminder or send_sitting_reminder:
     print "Sending User Reminder"
+    buzz("posture")
     send_user_reminder(USERNAME, "sitting")
   else:
     print "Not sending User Reminder"

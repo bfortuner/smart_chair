@@ -93,6 +93,8 @@ class Buzzer(object):
   GPIO.setup(self.buzzer_pin, GPIO.IN)
 
 if __name__ == "__main__":
-  a = input("Enter \"posture\" or \"sitting\":")
+  #a = input("Enter \"posture\" or \"sitting\":")
   buzzer = Buzzer()
-  buzzer.play(str(a))
+  #print a
+  buzzer.play("posture")
+  buzzer.play("sitting")
