@@ -17,7 +17,7 @@ def update_last_sitting_reminder_sent_time(session):
 
 
 def update_last_posture_reminder_sent_time(session):
-    print "Updating last sitting reminder sent to now"
+    print "Updating last posture reminder sent to now"
     session.last_posture_reminder_sent = get_current_time_utc()
     db.commit()
 

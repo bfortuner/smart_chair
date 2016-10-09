@@ -55,7 +55,6 @@ def get_user_reminders(username):
         reminders["send_posture_reminder"] = get_posture_reminder(
             current_session)
 
-    reminders["send_posture_reminder"] = get_posture_reminder(current_session)
     reminders["status"] = "Calculated Current Reminders"
 
     return reminders
