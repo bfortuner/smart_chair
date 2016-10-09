@@ -62,12 +62,19 @@ def get_current_time_utc():
   return datetime.datetime.utcnow()
 
 
-def should_update_database(last_updated, posture, sitting):
+def should_update_sitting(last_updated, sitting):
   seconds_since_last_update = (get_current_time_utc() - last_updated).total_seconds()
   #print "Seconds since last update: %s" % seconds_since_last_update
   if seconds_since_last_update > POLLING_INTERVAL_SECS:
-    #print "Polling Interval Threshold Reached. Posture: %s, Sitting: %s" % (posture, sitting)
-    return posture or sitting
+    return sitting
+  return False
+
+
+def should_update_posture(last_updated, posture):
+  seconds_since_last_update = (get_current_time_utc() - last_updated).total_seconds()
+  #print "Seconds since last update: %s" % seconds_since_last_update
+  if seconds_since_last_update > POLLING_INTERVAL_SECS:
+    return posture
   return False
 
 
@@ -118,15 +125,20 @@ def run():
         back_state = GPIO.input(backButton)
         seat_state = GPIO.input(seatButton)
         if back_state==False:
-          print('Back is touching')
+#          print('Back is touching')
           posture_recorded = True
-          event_type = "posture"
         if seat_state==False:
           sitting_recorded = True
-          event_type = "sitting"
-          print('Sitting')
-        if should_update_database(last_update_sent, posture_recorded, sitting_recorded):
-          register_user_event(USERNAME, event_type)
+
+        update_sitting = should_update_sitting(last_update_sent, sitting_recorded)
+        update_posture = should_update_posture(last_update_sent, posture_recorded)
+        if update_sitting:
+          register_user_event(USERNAME, "sitting")
+
+        if update_posture:
+          register_user_event(USERNAME, "posture")
+
+        if update_sitting or update_posture:
           break
                                   
   except KeyboardInterrupt:
