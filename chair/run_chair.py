@@ -29,18 +29,18 @@ def get_pretty_json_obj(json_obj):
 
 
 def register_user_event(username, event_type):
-  print "Registering event_type: '%s' for user: '%s'" % (event_type, username)
+  #print "Registering event_type: '%s' for user: '%s'" % (event_type, username)
   uri = BACKEND_ENDPOINT+'/event/register'
   json = {"username": username,"event_type":event_type}
   response = post(uri, json)
-  print "Register Event Response: %s" % get_pretty_json_obj(response)
+  #print "Register Event Response: %s" % get_pretty_json_obj(response)
 
 
 def get_user_reminders(username):
-  print "Fetching User Reminders for user: '%s'" % username
+  #print "Fetching User Reminders for user: '%s'" % username
   uri = BACKEND_ENDPOINT+'/reminders/'+username
   response = get(uri)
-  print "Get User Reminders Response: %s" % get_pretty_json_obj(response)
+  #print "Get User Reminders Response: %s" % get_pretty_json_obj(response)
   return response
 
 
@@ -51,11 +51,11 @@ def buzz(buzz_type):
 
 
 def send_user_reminder(username, reminder_type):
-  print "Sending reminder_type: '%s' to user: '%s'" % (reminder_type, username)
+  #print "Sending reminder_type: '%s' to user: '%s'" % (reminder_type, username)
   uri = BACKEND_ENDPOINT+'/reminders/send'
   data = {"username": username,"reminder_type":reminder_type}
   response = post(uri, data)
-  print "Send Reminder Response: %s" % get_pretty_json_obj(response)
+  #print "Send Reminder Response: %s" % get_pretty_json_obj(response)
 
 
 def get_current_time_utc():
@@ -132,6 +132,7 @@ def run():
 
         update_sitting = should_update_sitting(last_update_sent, sitting_recorded)
         update_posture = should_update_posture(last_update_sent, posture_recorded)
+        
         if update_sitting:
           register_user_event(USERNAME, "sitting")
 
@@ -139,6 +140,8 @@ def run():
           register_user_event(USERNAME, "posture")
 
         if update_sitting or update_posture:
+          print "Sitting Changed: %s" % update_sitting
+          print "Posture Changed: %s" % update_posture
           break
                                   
   except KeyboardInterrupt:
