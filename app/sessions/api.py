@@ -21,3 +21,10 @@ def register_event():
         last_sitting_event=session.last_sitting_signal_time
     )
     return response
+
+
+
+@application.route('/sessions/<username>', methods=['GET'])
+def get_sessions(username):
+    sessions = session_manager.get_all_user_sessions(username)
+    return jsonify(sessions=sessions)

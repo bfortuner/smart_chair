@@ -1,6 +1,7 @@
 alembic==0.8.8
 APScheduler==3.2.0
 boto==2.42.0
+click==6.6
 Flask==0.10.1
 Flask-Cors==2.1.2
 Flask-Migrate==1.6.0
@@ -24,7 +25,9 @@ pytest==2.8.5
 pytest-mock==0.9.0
 python-editor==1.0.1
 pytz==2016.6.1
+redis==2.10.5
 requests==2.11.1
+rq==0.6.0
 simplejson==3.8.1
 six==1.10.0
 SQLAlchemy==1.0.8

@@ -12,7 +12,7 @@ class Session(Base):
     start_time = Column(DateTime, default=func.now())
     end_time = Column(DateTime)
     last_sitting_signal_time = Column(DateTime, default=func.now())
-    last_posture_signal_time = Column(DateTime)
+    last_posture_signal_time = Column(DateTime, default=func.now())
 
     def __init__(self, username):
         self.username = username

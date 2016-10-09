@@ -21,6 +21,7 @@ jobs_log = logger.get_logger(JOBS_LOG_FILE, log_level=LOG_LEVEL)
 # Import APIs
 import app.users.api
 import app.sessions.api
+import app.reminders.api
 
 
 @application.teardown_appcontext
