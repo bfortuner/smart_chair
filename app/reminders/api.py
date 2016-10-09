@@ -9,8 +9,7 @@ def get_user_reminders(username):
     reminders = reminder_manager.get_user_reminders(username)
     print "Reminders: " + str(reminders)
     return jsonify(
-        should_send_sitting_alert=reminders['sitting'],
-        should_send_posture_alert=reminders['posture']
+    	reminders=reminders
     )
 
 
@@ -20,7 +19,7 @@ def send_user_reminder():
 	print "Received request " + str(json)
 	username = json["username"]
 	reminder_type = json["reminder_type"]
-	reminder_manager.send_reminder(username)
+	status_msg = reminder_manager.send_reminder(username)
 	return jsonify(
-		status="SUCCESS"
+		status_msg=status_msg
 	)

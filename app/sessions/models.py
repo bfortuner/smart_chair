@@ -13,6 +13,8 @@ class Session(Base):
     end_time = Column(DateTime)
     last_sitting_signal_time = Column(DateTime, default=func.now())
     last_posture_signal_time = Column(DateTime, default=func.now())
+    last_sitting_reminder_sent = Column(DateTime)
+    last_posture_reminder_sent = Column(DateTime)
 
     def __init__(self, username):
         self.username = username
