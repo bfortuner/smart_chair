@@ -8,7 +8,7 @@ from app.auth.authentication import requires_auth
 @application.route('/event/register', methods=['POST'])
 def register_event():
     json = request.get_json()
-    print "Received request " + str(json)
+    print "Register Event Request Received: " + str(json)
     username = json['username']
     event_type = json['event_type']
     session = session_manager.create_or_update_session(username, event_type)
@@ -26,5 +26,6 @@ def register_event():
 
 @application.route('/sessions/<username>', methods=['GET'])
 def get_sessions(username):
+    print "Get User Sessions Request: %s" % username
     sessions = session_manager.get_all_user_sessions(username)
     return jsonify(sessions=sessions)
