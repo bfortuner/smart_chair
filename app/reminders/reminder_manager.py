@@ -70,9 +70,9 @@ def get_posture_reminder(session):
     ) - datetime.timedelta(seconds=MAX_ALLOWED_POSTURE_SIGNAL_GAP_SECS))
     last_required_sitting_time = (get_current_time_utc(
     ) - datetime.timedelta(seconds=MAX_ALLOWED_SITTING_SIGNAL_GAP_SECS))
-    posture_ok = session.last_posture_signal_time < last_required_posture_time
-    sitting_ok = session.last_sitting_signal_time < last_required_sitting_time
-    return posture_ok and sitting_ok
+    posture_reminder_triggered = session.last_posture_signal_time < last_required_posture_time
+    user_still_sitting = session.last_sitting_signal_time > last_required_sitting_time
+    return posture_reminder_triggered and user_still_sitting
 
 
 def send_reminder(username):
