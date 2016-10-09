@@ -16,6 +16,12 @@ def update_last_sitting_reminder_sent_time(session):
     db.commit()
 
 
+def update_last_posture_reminder_sent_time(session):
+    print "Updating last sitting reminder sent to now"
+    session.last_posture_reminder_sent = get_current_time_utc()
+    db.commit()
+
+
 def create_or_update_session(username, event_type):
     open_session = get_users_current_session(username)
     if open_session is None:

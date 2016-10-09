@@ -19,7 +19,7 @@ def send_user_reminder():
 	print "Send Reminder Request Received: " + str(json)
 	username = json["username"]
 	reminder_type = json["reminder_type"]
-	status_msg = reminder_manager.send_reminder(username)
+	status_msg = reminder_manager.send_reminder(username, reminder_type)
 	return jsonify(
 		status_msg=status_msg
 	)
