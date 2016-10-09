@@ -74,23 +74,31 @@ class Buzzer(object):
   x=0
 
   print("Playing tune ",tune)
-  if(tune=="sitting"):
-    pitches=[fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["b"],fN["g"],fN["g"],fN["g"],fN["b"]] + [fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["d"],fN["b"],fN["b"],fN["b"]] + [fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"]]
-    duration=[2,2,1,1,2,1,1,2,1,1,1,1] + [1,1,2,1,1,2,1,1,2,4] + [2,1,1,2,1,2,1,2,1,1]
-    for p in pitches:
-      self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.05)
-      x+=1
-  elif(tune=="posture"):
+  if(tune=="posture"):
     pitches=[1047, 988,523]
     duration=[0.1,0.1,0.2]
     for p in pitches:
+      self.buzz(p, duration[x]-.01)  #feed the pitch and duration to the func$
+      time.sleep(duration[x] *0.05)
+      x+=1
+  elif(tune=="sitting"):
+    pitches=[fN["cH"],fN["bH"],fN["aH"],fN["g"]]
+    duration=[.5,.25,.25,.5]
+    for p in pitches:
       self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.5)
+      time.sleep(duration[x] *0.25)
       x+=1
 
 
   GPIO.setup(self.buzzer_pin, GPIO.IN)
+
+
+def rocky_music():
+ pitches=[fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["b"],fN["g"],fN["g"],fN["g"],fN["b"]] + [fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["b"],fN["d"],fN["b"],fN["b"],fN["b"]] + [fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"],fN["g"]]
+ duration=[2,2,1,1,2,1,1,2,1,1,1,1] + [1,1,2,1,1,2,1,1,2,4] + [2,1,1,2,1,2,1,2,1,1]
+
+
+
 
 if __name__ == "__main__":
   #a = input("Enter \"posture\" or \"sitting\":")
