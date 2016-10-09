@@ -10,6 +10,47 @@ USERNAME="admin"
 POLLING_INTERVAL_SECS = 3
 
 
+
+def post(uri, data):
+  response = requests.post(uri, json=data)
+  json_obj = response.json()
+  return json_obj
+
+
+def get(uri):
+  response = requests.get(uri)
+  json_obj = response.json()
+  return json_obj
+
+
+def get_pretty_json_obj(json_obj):
+  return json.dumps(json_obj, indent=4, sort_keys=True)
+
+
+def register_user_event(username, event_type):
+  print "Registering event_type: '%s' for user: '%s'" % (event_type, username)
+  uri = BACKEND_ENDPOINT+'/event/register'
+  json = {"username": username,"event_type":event_type}
+  response = post(uri, json)
+  print "Register Event Response: %s" % get_pretty_json_obj(response)
+
+
+def get_user_reminders(username):
+  print "Fetching User Reminders for user: '%s'" % username
+  uri = BACKEND_ENDPOINT+'/reminders/'+username
+  response = get(uri)
+  print "Get User Reminders Response: %s" % get_pretty_json_obj(response)
+  return response
+
+
+def send_user_reminder(username, reminder_type):
+  print "Sending reminder_type: '%s' to user: '%s'" % (reminder_type, username)
+  uri = BACKEND_ENDPOINT+'/reminders/send'
+  data = {"username": username,"reminder_type":reminder_type}
+  response = post(uri, data)
+  print "Send Reminder Response: %s" % get_pretty_json_obj(response)
+
+
 def get_current_time_utc():
   return datetime.datetime.utcnow()
 
@@ -29,11 +70,19 @@ def should_update_database(last_updated, posture, sitting):
   return False
 
 
-def register_user_event(username, event_type):
-  print "Registering user event: %s" % event_type
-  response = requests.post(BACKEND_ENDPOINT+"/event/register", json = {"username": username,"event_type":event_type})
-  json_obj = response.json()  #json.loads(r)
-  print "Response: %s" % json.dumps(json_obj, indent=4, sort_keys=True)
+def check_for_and_send_user_reminders(username):
+  reminders = get_user_reminders(USERNAME)
+  if reminders is not None:
+    reminders = reminders["reminders"]
+
+  send_posture_reminder = reminders["send_posture_reminder"]
+  send_sitting_reminder = reminders["send_sitting_reminder"]
+  print "User Reminders: Posture:%s, Sitting:%s" % (send_posture_reminder, send_sitting_reminder)
+  if send_posture_reminder or send_sitting_reminder:
+    print "Sending User Reminder"
+    send_user_reminder(USERNAME, "sitting")
+  else:
+    print "Not sending User Reminder"
 
 
 def run():
@@ -51,6 +100,8 @@ def run():
       sitting_recorded = False
       posture_recorded = False
       last_update_sent = datetime.datetime.now()
+      user_reminders = get_user_reminders(USERNAME)
+      check_for_and_send_user_reminders(USERNAME)
       while True:
         back_state = GPIO.input(backButton)
         seat_state = GPIO.input(seatButton)
@@ -72,4 +123,7 @@ def run():
 
 if __name__ == "__main__":
   #register_user_event(USERNAME,"sitting")
+  #get_user_reminders(USERNAME)
+  #send_user_reminder(USERNAME, "sitting")
+  #check_for_and_send_user_reminders(USERNAME)
   run()
