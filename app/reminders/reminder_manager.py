@@ -2,7 +2,7 @@ import datetime
 from app.sessions import session_manager
 from app.reminders.constants import MAX_SECONDS_OF_NON_INTERRUPTED_SITTING
 from app.reminders.constants import MAX_ALLOWED_SITTING_SIGNAL_GAP_SECS, MAX_ALLOWED_POSTURE_SIGNAL_GAP_SECS
-from app.reminders.constants import MIN_INTERVAL_BETWEEN_SITTING_REMINDERS, MIN_INTERVAL_BETWEEN_POSTURE_REMINDERS
+from app.config import config
 from app.events.constants import SITTING_EVENT, POSTURE_EVENT
 
 
@@ -69,7 +69,7 @@ def should_skip_sitting_reminder_cycle(session):
     print "Calculating Sitting Reminder Skip Cycle Window"
     next_open_reminder_window = (
         session.last_sitting_reminder_sent
-        + datetime.timedelta(seconds=MIN_INTERVAL_BETWEEN_SITTING_REMINDERS))
+        + datetime.timedelta(seconds=config.MIN_INTERVAL_BETWEEN_SITTING_REMINDERS))
     should_skip = get_current_time_utc() < next_open_reminder_window
     print "Should skip sitting reminder: " + str(should_skip)
     return should_skip
@@ -83,7 +83,7 @@ def should_skip_posture_reminder_cycle(session):
     print "Calculating Posture Reminder Skip Cycle Window"
     next_open_reminder_window = (
         session.last_posture_reminder_sent
-        + datetime.timedelta(seconds=MIN_INTERVAL_BETWEEN_POSTURE_REMINDERS))
+        + datetime.timedelta(seconds=config.MIN_INTERVAL_BETWEEN_POSTURE_REMINDERS))
     should_skip = get_current_time_utc() < next_open_reminder_window
     print "Should skip posture reminder: " + str(should_skip)
     return should_skip
