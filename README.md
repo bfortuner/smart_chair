@@ -1,6 +1,12 @@
-## Smart Chair API
+## SmartCushion API
 
-Python API for handling user requests from Smart Chair
+Python API for handling user requests from Smart Cushion
+
+### About SmartCushion
+
+![SmartCushion Prototype](https://s3-us-west-2.amazonaws.com/smart-chair/IMG_20161009_184210939.jpg "SmartCushion Prototype")
+
+SmartCushion turns any chair into a smart chair. It tracks how long you've been sitting and reminds you to get up and stretch. If you start to slouch, it buzzes and reminds you to correct your posture!
 
 ### Setup
 
